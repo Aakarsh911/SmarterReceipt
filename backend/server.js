@@ -5,6 +5,8 @@ const passport = require('passport');
 const path = require('path');
 const rootRouter = require('./routes')
 const bodyParser = require('body-parser');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 require('./config/passport'); // Initialize Passport configuration
 
@@ -19,18 +21,29 @@ app.use(express.json());
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(cookieParser());
+app.set("trust proxy", 1)
 
-app.use(cookieSession({
-    name: 'session',
-    keys: ['56fb7a12f566d26973accd3014ba65e66db60ddf445a5f98f0837400aa916b34'],
-    maxAge: 24 * 60 * 60 * 1000,
-    sameSite: 'none',
-    secure: true,
-    signed: true
-}));
+app.use(session({
+    proxy: true,
+    secret: ['56fb7a12f566d26973accd3014ba65e66db60ddf445a5f98f0837400aa916b34'],
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 15 * 24 * 60 * 60 * 1000,
+      sameSite: "none",
+      secure: true,
+      signed: true,
+    },
+  }))
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    next();
+  });
 
 // Register routes
 app.use('/api/v1', rootRouter);
@@ -38,15 +51,6 @@ app.use((err, req, res, next) => {
     console.error('Error:', err);
     res.status(500).send({ message: 'Something broke!' });
 });
-
-
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
-
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-    });
-}
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
