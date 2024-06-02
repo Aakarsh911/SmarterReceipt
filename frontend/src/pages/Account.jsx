@@ -23,7 +23,7 @@ function Account() {
 
     useEffect(() => {
         console.log('Checking current user status');
-        axios.get(`${process.env.backend_url}/api/v1/user/current_user`, { withCredentials: true })
+        axios.get('https://smarter-receipt.vercel.app/api/v1/user/current_user', { withCredentials: true })
             .then(response => {
                 if (response.data) {
                     console.log('User is authenticated:', response.data);
