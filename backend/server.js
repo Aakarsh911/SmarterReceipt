@@ -6,9 +6,6 @@ const path = require('path');
 const rootRouter = require('./routes')
 const bodyParser = require('body-parser');
 
-// .env
-require('dotenv').config();
-
 require('./config/passport'); // Initialize Passport configuration
 
 const app = express();
