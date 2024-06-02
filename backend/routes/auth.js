@@ -11,10 +11,15 @@ router.get("/google/callback", passport.authenticate("google", {
 }))
 
 router.get('/logout', (req, res) => {
-    //delete cookie 
     req.logout();
-    req.session = null;
-    res.send({ success: true });
+    req.session.destroy(err => {
+        if (err) {
+            return res.send({ success: false, message: 'Failed to destroy the session' });
+        }
+        res.clearCookie('connect.sid', { path: '/' }); // Adjust the cookie name if different
+        res.send({ success: true, message: 'Logged out successfully' });
+    });
 });
+
 
 module.exports = router;
