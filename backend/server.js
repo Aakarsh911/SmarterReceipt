@@ -14,7 +14,7 @@ require('./config/passport'); // Initialize Passport configuration
 const app = express();
 
 app.use(cors({
-    origin: process.env.frontend_url,
+    origin: "https://smarterreceipt.vercel.app",
     credentials: true
 }));
 
