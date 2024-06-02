@@ -6,12 +6,15 @@ const path = require('path');
 const rootRouter = require('./routes')
 const bodyParser = require('body-parser');
 
+// .env
+require('dotenv').config();
+
 require('./config/passport'); // Initialize Passport configuration
 
 const app = express();
 
 app.use(cors({
-    origin: 'https://smartereceipt.netlify.app',
+    origin: process.env.frontend_url,
     credentials: true
 }));
 
@@ -23,7 +26,10 @@ app.use(express.json());
 app.use(cookieSession({
     name: 'session',
     keys: ['56fb7a12f566d26973accd3014ba65e66db60ddf445a5f98f0837400aa916b34'],
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    maxAge: 24 * 60 * 60 * 1000,
+    sameSite: 'none',
+    secure: true,
+    signed: true
 }));
 
 app.use(passport.initialize());

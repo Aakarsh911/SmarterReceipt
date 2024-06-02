@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import '../css/Account.css';
 
+
 function Account() {
     const [user, setUser] = useState(null);
     const [isLightMode, setIsLightMode] = useState(() => {
@@ -22,7 +23,7 @@ function Account() {
 
     useEffect(() => {
         console.log('Checking current user status');
-        axios.get('http://localhost:8000/api/v1/user/current_user', { withCredentials: true })
+        axios.get(`${process.env.backend_url}/api/v1/user/current_user`, { withCredentials: true })
             .then(response => {
                 if (response.data) {
                     console.log('User is authenticated:', response.data);
@@ -51,7 +52,7 @@ function Account() {
                 OwnerLastName: lastName,
                 ShopName: shopName,
             };
-            const response = await axios.post('http://localhost:8000/api/v1/user/update', updatedUser, { withCredentials: true });
+            const response = await axios.post(`${process.env.backend_url}/api/v1/user/update`, updatedUser, { withCredentials: true });
             setUser(response.data);
             alert('User information updated successfully');
         } catch (error) {
