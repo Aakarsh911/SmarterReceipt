@@ -1,16 +1,12 @@
 const express = require('express');
+const app = express();
 const cors = require('cors');
-const cookieSession = require('cookie-session');
 const passport = require('passport');
-const path = require('path');
 const rootRouter = require('./routes')
-const bodyParser = require('body-parser');
 const session = require('express-session');
-const cookieParser = require('cookie-parser');
+var cookieParser = require('cookie-parser');
 
 require('./config/passport'); // Initialize Passport configuration
-
-const app = express();
 
 app.use(cors({
     origin: "https://smarter-receipt.vercel.app",
@@ -37,13 +33,13 @@ app.use(session({
     },
   }))
 
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     next();
-  });
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Register routes
 app.use('/api/v1', rootRouter);

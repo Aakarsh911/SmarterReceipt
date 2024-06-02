@@ -10,6 +10,8 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
 });
 
 router.get('/logout', (req, res) => {
+    //delete cookie 
+    req.logout();
     req.session = null;
     res.send({ success: true });
 });
