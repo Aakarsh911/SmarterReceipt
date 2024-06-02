@@ -11,7 +11,7 @@ function AddProduct() {
 
     useEffect(() => {
         if (productId) {
-            axios.get(`http://localhost:8000/api/v1/inventory/product_details/${productId}`, { withCredentials: true })
+            axios.get(`https://smarterreceipt.onrender.com/api/v1/inventory/product_details/${productId}`, { withCredentials: true })
                 .then(response => {
                     const { name, image } = response.data;
                     setProductName(name);
@@ -38,7 +38,7 @@ function AddProduct() {
             image: productImage
         };
 
-        axios.post('http://localhost:8000/api/v1/inventory/addProduct', { product }, { withCredentials: true })
+        axios.post('https://smarterreceipt.onrender.com/api/v1/inventory/addProduct', { product }, { withCredentials: true })
             .then(response => {
                 console.log('Product added to inventory:', response.data);
             })
