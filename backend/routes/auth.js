@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
-    res.redirect('http://smarterreceipt.vercel.com');
+    res.redirect('https://smarter-receipt.vercel.app');
 });
 
 router.get('/logout', (req, res) => {
