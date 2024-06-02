@@ -5,9 +5,10 @@ const router = express.Router();
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
-    res.redirect('https://smarter-receipt.vercel.app');
-});
+router.get("/auth/google/callback", passport.authenticate("google", {
+    successRedirect: "https://smarter-receipt.vercel.app",
+    failureRedirect: "https://smarter-receipt.vercel.app/login"
+}))
 
 router.get('/logout', (req, res) => {
     //delete cookie 

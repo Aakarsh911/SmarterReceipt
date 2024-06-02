@@ -24,7 +24,7 @@ app.use(session({
     proxy: true,
     secret: ['56fb7a12f566d26973accd3014ba65e66db60ddf445a5f98f0837400aa916b34'],
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
       maxAge: 15 * 24 * 60 * 60 * 1000,
       sameSite: "none",
