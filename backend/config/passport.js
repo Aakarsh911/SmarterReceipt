@@ -39,7 +39,12 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
     try {
+        console.log('Deserializing user:', id);
         const user = await User.findById(id);
+        if (!user) {
+            console.log('User not found');
+            return done('User not found', null);
+        }
         if (!user.InventoryId) {
             user.InventoryId = await generateUniqueInventoryId();
             await user.save();

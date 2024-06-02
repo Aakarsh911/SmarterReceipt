@@ -16,7 +16,12 @@ router.get('/logout', (req, res) => {
         if (err) {
             return res.send({ success: false, message: 'Failed to destroy the session' });
         }
-        res.clearCookie('connect.sid', { path: '/' }); // Adjust the cookie name if different
+        // Make sure cookie attributes match those specified in the session middleware
+        res.clearCookie('connect.sid', {
+            path: '/',
+            sameSite: 'none',
+            secure: true // This needs to match the settings used in your session configuration
+        });
         res.send({ success: true, message: 'Logged out successfully' });
     });
 });
