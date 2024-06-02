@@ -3,23 +3,6 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const { User } = require('../db');
 const { generateUniqueInventoryId } = require('../helpers');
 
-passport.serializeUser((user, done) => {
-    done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-    try {
-        const user = await User.findById(id);
-        if (!user.InventoryId) {
-            user.InventoryId = await generateUniqueInventoryId();
-            await user.save();
-        }
-        done(null, user);
-    } catch (err) {
-        done(err, null);
-    }
-});
-
 passport.use(new GoogleStrategy({
     clientID: '660075968403-9erhme7sfjlosak5soglvmm7kivli605.apps.googleusercontent.com',
     clientSecret: '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',
@@ -49,3 +32,20 @@ passport.use(new GoogleStrategy({
         done(err, null);
     }
 }));
+
+passport.serializeUser((user, done) => {
+    done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+    try {
+        const user = await User.findById(id);
+        if (!user.InventoryId) {
+            user.InventoryId = await generateUniqueInventoryId();
+            await user.save();
+        }
+        done(null, user);
+    } catch (err) {
+        done(err, null);
+    }
+});
