@@ -10,6 +10,9 @@ import Webcam from 'react-webcam';
 import Quagga from 'quagga';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import VideoCapture from "../components/VideoCapture";
+import QRCode from 'qrcode.react';
+import ImageCapture from "../components/ImageCapture";
 
 function Inventory() {
     const [user, setUser] = useState(null);
@@ -37,12 +40,16 @@ function Inventory() {
     const [image, setProductImage] = useState('');
     const [fetched, setFetched] = useState(false);
     const [resultMessage, setResultMessage] = useState('');
-    const webcamRef = useRef(null);
-    const canvasRef = useRef(null);
     const navigate = useNavigate();
 
     const toggleMode = () => {
         helperToggleMode(isLightMode, setIsLightMode);
+    };
+    const handleBarcodeDetected = (barcode) => {
+        console.log("h1"+ barcode);
+        setIsCameraOpen(false);
+        fetchProductDetails(barcode);// Close the camera as soon as a barcode is detected
+        // Set the detected barcode in state
     };
 
     useEffect(() => {
@@ -101,42 +108,41 @@ function Inventory() {
             });
     };
 
-    const handleCaptureClick = () => {
-        const imageSrc = webcamRef.current.getScreenshot();
-        decodeBarcode(imageSrc);
-    };
 
-    const decodeBarcode = (imageSrc) => {
-        const img = new Image();
-        img.src = imageSrc;
 
-        img.onload = () => {
-            Quagga.decodeSingle({
-                src: img.src,
-                numOfWorkers: 0,
-                inputStream: {
-                    size: 800
-                },
-                decoder: {
-                    readers: ["ean_reader", "upc_reader"]
-                },
-                locator: {
-                    patchSize: "medium",
-                    halfSample: true
-                }
-            }, (result) => {
-                if (result && result.codeResult) {
-                    const barcode = result.codeResult.code;
-                    setResultMessage('Barcode: ' + barcode);
-                    setScannedBarcode(barcode);
-                    fetchProductDetails(barcode);
-                } else {
-                    setResultMessage('No barcode detected');
-                    toast.error('No barcode detected');
-                }
-            });
-        };
-    };
+
+
+    // const decodeBarcode = (imageSrc) => {
+    //     const img = new Image();
+    //     img.src = imageSrc;
+    //
+    //     img.onload = () => {
+    //         Quagga.decodeSingle({
+    //             src: img.src,
+    //             numOfWorkers: 0,
+    //             inputStream: {
+    //                 size: 800
+    //             },
+    //             decoder: {
+    //                 readers: ["ean_reader", "upc_reader"]
+    //             },
+    //             locator: {
+    //                 patchSize: "medium",
+    //                 halfSample: true
+    //             }
+    //         }, (result) => {
+    //             if (result && result.codeResult) {
+    //                 const barcode = result.codeResult.code;
+    //                 setResultMessage('Barcode: ' + barcode);
+    //                 setScannedBarcode(barcode);
+    //                 fetchProductDetails(barcode);
+    //             } else {
+    //                 setResultMessage('No barcode detected');
+    //                 toast.error('No barcode detected');
+    //             }
+    //         });
+    //     };
+    // };
 
     const fetchProductDetails = (barcode) => {
         setFetched(false); // Reset fetched state to allow fetching new product details
@@ -299,14 +305,8 @@ function Inventory() {
                             <button className="manual-entry-button open-popup" onClick={handleManualEntryClick}>
                                 <FontAwesomeIcon icon={faKeyboard} /></button>
                         </div>
-                        <Webcam
-                            audio={false}
-                            ref={webcamRef}
-                            screenshotFormat="image/jpeg"
-                            videoConstraints={{ facingMode: "environment" }}
-                        />
-                        <button className="capture-button" onClick={handleCaptureClick}>Capture Photo</button>
-                        <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
+                        <VideoCapture onBarcodeDetected={handleBarcodeDetected} />
+                        <ImageCapture />
                     </div>
                 )}
                 {scannedPopup && (
