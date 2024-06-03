@@ -52,7 +52,7 @@ function Account() {
                 OwnerLastName: lastName,
                 ShopName: shopName,
             };
-            const response = await axios.post(`${process.env.backend_url}/api/v1/user/update`, updatedUser, { withCredentials: true });
+            const response = await axios.post(`https://smarterreceipt.onrender.com/api/v1/user/update`, updatedUser, { withCredentials: true });
             setUser(response.data);
             alert('User information updated successfully');
         } catch (error) {
