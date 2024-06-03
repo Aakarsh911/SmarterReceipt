@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9541b68-26e5-4e45-ac41-7b740e8fa41d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Home.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +74,7 @@
       <workItem from="1717183898519" duration="4753000" />
       <workItem from="1717425501521" duration="2129000" />
       <workItem from="1717446135523" duration="110000" />
-      <workItem from="1717446254208" duration="1395000" />
+      <workItem from="1717446254208" duration="1810000" />
     </task>
     <task id="LOCAL-00001" summary="prevent empty transactions">
       <created>1717447005039</created>
@@ -83,7 +83,14 @@
       <option name="project" value="LOCAL" />
       <updated>1717447005039</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="update logo and title">
+      <created>1717448162257</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1717448162257</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -91,6 +98,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="prevent empty transactions" />
-    <option name="LAST_COMMIT_MESSAGE" value="prevent empty transactions" />
+    <MESSAGE value="update logo and title" />
+    <option name="LAST_COMMIT_MESSAGE" value="update logo and title" />
   </component>
 </project>

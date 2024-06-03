@@ -115,8 +115,7 @@ function Home() {
             <Nav isLightMode={isLightMode} toggleMode={toggleMode} />
             <div className="container">
                 <div className='toggler'>
-                    
-                    <a href="/prod"><h2 style={{"color": "gray", "margin": "0"}}><FontAwesomeIcon icon={faPlus}/> New Order</h2></a>
+                    <a href="/new-order"><h2 style={{"color": "gray", "margin": "0"}}><FontAwesomeIcon icon={faPlus}/> New Order</h2></a>
                 </div>
                 
                 <h1>{user.ShopName}'s Statistics</h1>
