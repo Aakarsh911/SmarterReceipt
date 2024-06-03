@@ -1,6 +1,6 @@
 .dce-video-container {
-    width: 150vw; /* Full viewport width */
-    height: 50vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
+    height: 75vh; /* Full viewport height */
     margin: 0;
     left: -20%;
     padding: 0;
