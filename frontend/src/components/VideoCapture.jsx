@@ -10,7 +10,6 @@ const VideoCapture = ({ onBarcodeDetected }) => {
 
     useEffect(() => {
         let pInit = null;
-
         const init = async () => {
             try {
                 const cameraView = await CameraView.createInstance();
