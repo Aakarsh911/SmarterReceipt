@@ -15,6 +15,7 @@ function Account() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [shopName, setShopName] = useState('');
+    const [upiId, setUpiId] = useState('');
 
     useEffect(() => {
         document.body.style.background = isLightMode ? "#fff" : "#000";
@@ -31,6 +32,7 @@ function Account() {
                     setFirstName(response.data.OwnerFirstName);
                     setLastName(response.data.OwnerLastName);
                     setShopName(response.data.ShopName);
+                    setUpiId(response.data.upiId);
                 } else {
                     console.log('User is not authenticated');
                 }
@@ -51,6 +53,7 @@ function Account() {
                 OwnerFirstName: firstName,
                 OwnerLastName: lastName,
                 ShopName: shopName,
+                upiId: upiId
             };
             const response = await axios.post(`https://smarterreceipt.onrender.com/api/v1/user/update`, updatedUser, { withCredentials: true });
             setUser(response.data);
@@ -98,6 +101,15 @@ function Account() {
                             value={shopName}
                             onChange={(e) => setShopName(e.target.value)}
                             placeholder={user?.ShopName}
+                        />
+                        <input
+                            className={`account-input ${isLightMode ? 'light' : 'dark'}`}
+                            type="text"
+                            id="shop"
+                            name="shop"
+                            value={upiId}
+                            onChange={(e) => setUpiId(e.target.value)}
+                            placeholder={user?.upiId}
                         />
                         <button type="submit" className="edit-button">Save</button>
                     </form>

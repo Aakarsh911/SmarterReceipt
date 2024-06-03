@@ -22,12 +22,13 @@ router.post('/addShopName', isAuthenticated, async (req, res) => {
     }
 });
 router.put("/update", isAuthenticated, async (req, res) => {
-    const {OwnerFirstName,OwnerLastName,ShopName} = req.body;
+    const {OwnerFirstName,OwnerLastName,ShopName,upiId} = req.body;
     try{
         const user = await User.findById(req.user.id);
         user.OwnerFirstName = OwnerFirstName;
         user.OwnerLastName = OwnerLastName;
         user.ShopName = ShopName;
+        user.upiId = upiId;
         await user.save();
         res.send(user);
     }catch(err){
