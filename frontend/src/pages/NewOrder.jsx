@@ -114,6 +114,10 @@ function NewOrder() {
         axios.get(`https://smarterreceipt.onrender.com/api/v1/inventory/product_price/${name}`, { withCredentials: true })
             .then(response => {
                 const maxQuantity = response.data.quantity;
+                if (products[index].quantity >= maxQuantity) {
+                    toast.error(`Maximum quantity for this product is ${maxQuantity}`);
+                    return;
+                }
                 setProducts(prevProducts =>
                     prevProducts.map(product =>
                         product.barcode === barcode && product.quantity < maxQuantity
@@ -185,7 +189,7 @@ function NewOrder() {
                 const link = `https://smarter-receipt.vercel.app/${shopName}/${orderNumber}`;
                 setProducts([]);
                 setTotalPrice(0);
-                toast.success('Order placed successfully and link sent');
+                toast.success('Order placed successfully');
                 setShowEmailPrompt(false);
                 if (valid) {
                     axios.post('https://smarterreceipt.onrender.com/api/v1/send_link/send_link', { email, link })
