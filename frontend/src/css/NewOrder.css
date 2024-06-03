@@ -21,10 +21,10 @@
 
 .camera-container {
     position: fixed;
-    top: 0;
+    top: -30%;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 120%;
     background: rgba(0, 0, 0, 0.8);
     display: flex;
     flex-direction: column;
@@ -231,4 +231,14 @@
 .confirm {
     width: 50%;
     font-size: large;
+}
+
+.video {
+    height: 100vh;
+    width: 100vw;
+}
+
+.dce-video-container {
+    width: 100%;
+    height: 100%;
 }

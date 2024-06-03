@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import Webcam from 'react-webcam';
-import Quagga from 'quagga';
 import Nav from '../components/Nav';
 import '../css/NewOrder.css';
 import { toggleMode as helperToggleMode } from '../helpers';
@@ -9,7 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus, faX, faKeyboard, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import VideoCapture from "../components/VideoCapture";
 import QRCode from 'qrcode.react';
+import ImageCapture from "../components/ImageCapture";
 
 function NewOrder() {
     const [isLightMode, setIsLightMode] = useState(() => {
@@ -24,16 +24,19 @@ function NewOrder() {
     const [manualBarcode, setManualBarcode] = useState('');
     const [email, setEmail] = useState('');
     const [shopName, setShopName] = useState('');
-    const webcamRef = useRef(null);
-    const canvasRef = useRef(null);
     const [showQR, setShowQR] = useState(false);
     const [qrLink, setQRLink] = useState('');
     const [showEmailPrompt, setShowEmailPrompt] = useState(false);
-
+    const [resultBarcode, setResultBarcode] = useState(null);
     const toggleMode = () => {
         helperToggleMode(isLightMode, setIsLightMode);
     };
-
+    const handleBarcodeDetected = (barcode) => {
+        console.log("h1"+ barcode);
+        setIsCameraOpen(false);
+        fetchProductDetails(barcode);// Close the camera as soon as a barcode is detected
+       // Set the detected barcode in state
+    };
     useEffect(() => {
         document.body.style.background = isLightMode ? "#fff" : "#000";
         document.body.style.color = isLightMode ? "#000" : "#fff";
@@ -62,42 +65,6 @@ function NewOrder() {
     const handlePlusClick = () => {
         setIsCameraOpen(true);
         setResultMessage('');
-    };
-
-    const handleCaptureClick = () => {
-        const imageSrc = webcamRef.current.getScreenshot();
-        decodeBarcode(imageSrc);
-    };
-
-    const decodeBarcode = (imageSrc) => {
-        const img = new Image();
-        img.src = imageSrc;
-
-        img.onload = () => {
-            Quagga.decodeSingle({
-                src: img.src,
-                numOfWorkers: 0,
-                inputStream: {
-                    size: 800
-                },
-                decoder: {
-                    readers: ["ean_reader", "upc_reader"]
-                },
-                locator: {
-                    patchSize: "medium",
-                    halfSample: true
-                }
-            }, (result) => {
-                if (result && result.codeResult) {
-                    const barcode = result.codeResult.code;
-                    setResultMessage('Barcode: ' + barcode);
-                    fetchProductDetails(barcode);
-                } else {
-                    toast.error("No barcode detected");
-                    setResultMessage('No barcode detected');
-                }
-            });
-        };
     };
 
     const fetchProductDetails = (barcode) => {
@@ -172,7 +139,8 @@ function NewOrder() {
         );
     };
 
-    const submit = () => {
+
+    const submit = ()=> {
         axios.get('https://smarterreceipt.onrender.com/api/v1/user/current_user', { withCredentials: true })
             .then(userResponse => {
                 const shopName = userResponse.data.ShopName;
@@ -186,7 +154,7 @@ function NewOrder() {
                 console.error('Error fetching user:', error);
                 toast.error('Error fetching user');
             });
-    }
+    };
 
     const close = () => {
         setIsCameraOpen(false);
@@ -206,31 +174,31 @@ function NewOrder() {
     const sendEmail = (valid) => {
         setShowQR(false);
         axios.put('https://smarterreceipt.onrender.com/api/v1/inventory/update_inventory', { products, totalPrice }, { withCredentials: true })
-                    .then(response => {
-                        const orderNumber = response.data.orderNumber;
-                        const link = `http://localhost:3000/${shopName}/${orderNumber}`;
-                        setProducts([]);
-                        setTotalPrice(0);
-                        toast.success('Order placed successfully and link sent');
-                        setShowEmailPrompt(false);
-                        if (valid) {
-                            axios.post('https://smarterreceipt.onrender.com/api/v1/send_link/send_link', { email, link })
-                            .then(() => {
-                                setProducts([]);
-                                setTotalPrice(0);
-                                toast.success('Order placed successfully and link sent');
-                                setShowEmailPrompt(false);
-                            })
-                            .catch(error => {
-                                console.error('Error sending link:', error);
-                                toast.error('Error sending link');
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error placing order:', error);
-                        toast.error('Error placing order');
-                    });
+            .then(response => {
+                const orderNumber = response.data.orderNumber;
+                const link = `http://localhost:3000/${shopName}/${orderNumber}`;
+                setProducts([]);
+                setTotalPrice(0);
+                toast.success('Order placed successfully and link sent');
+                setShowEmailPrompt(false);
+                if (valid) {
+                    axios.post('https://smarterreceipt.onrender.com/api/v1/send_link/send_link', { email, link })
+                        .then(() => {
+                            setProducts([]);
+                            setTotalPrice(0);
+                            toast.success('Order placed successfully and link sent');
+                            setShowEmailPrompt(false);
+                        })
+                        .catch(error => {
+                            console.error('Error sending link:', error);
+                            toast.error('Error sending link');
+                        });
+                }
+            })
+            .catch(error => {
+                console.error('Error placing order:', error);
+                toast.error('Error placing order');
+            });
     };
 
     const handleQuantityChange = (e, barcode, index) => {
@@ -275,27 +243,21 @@ function NewOrder() {
                 {isCameraOpen && (
                     <div className="camera-container">
                         <div className="cam-flex">
-                            <button className="close-button cam-close" onClick={close}><FontAwesomeIcon icon={faX} style={{"margin-left" : "2em"}}/></button>
+                            <button className="close-button cam-close" onClick={close}><FontAwesomeIcon icon={faX} style={{"marginLeft" : "2em"}}/></button>
                             <button className="manual-entry-button open-popup" onClick={handleManualEntryClick}><FontAwesomeIcon icon={faKeyboard} /></button>
                         </div>
-                        <Webcam
-                            audio={false}
-                            ref={webcamRef}
-                            screenshotFormat="image/jpeg"
-                            videoConstraints={{ facingMode: "environment" }}
-                        />
-                        <button className="capture-button" onClick={handleCaptureClick}>Capture Photo</button>
-                        <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
+                        <VideoCapture onBarcodeDetected={handleBarcodeDetected} />
+                        <ImageCapture/>
                     </div>
                 )}
                 {isManualEntryOpen && (
                     <div className="manual-entry-popup">
                         <button className="close-popup" onClick={close}><FontAwesomeIcon icon={faX} /></button>
-                        <input 
-                            type="text" 
-                            value={manualBarcode} 
-                            onChange={(e) => setManualBarcode(e.target.value)} 
-                            placeholder="Enter Barcode" 
+                        <input
+                            type="text"
+                            value={manualBarcode}
+                            onChange={(e) => setManualBarcode(e.target.value)}
+                            placeholder="Enter Barcode"
                             style={{ marginTop: "3em" }}
                         />
                         <button onClick={handleManualEntrySubmit}>Submit</button>
@@ -370,3 +332,6 @@ function NewOrder() {
 }
 
 export default NewOrder;
+
+
+

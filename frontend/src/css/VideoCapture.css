@@ -1,0 +1,40 @@
+.dce-video-container {
+    width: 100vw; /* Full viewport width */
+    height: 26vh; /* Full viewport height */
+    margin: 0;
+    padding: 0;
+
+    position: fixed;
+    left: 0;
+    z-index: 1000; /* Ensure it's on top */
+    background: none; /* Optional: To set a background color */
+}
+
+.down {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.div-results-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1001;
+    color: white;
+    font-size: 18px;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+body, html {
+    overflow: hidden; /* Prevent scrolling */
+}
+
+.dce-sel-camera {
+    display: none !important;
+}
+
+
+
