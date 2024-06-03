@@ -146,9 +146,11 @@ function NewOrder() {
                 const shopName = userResponse.data.ShopName;
                 const upiId = userResponse.data.upiId;
                 const ownerName = userResponse.data.OwnerFirstName;
+                setShopName(shopName);
                 const upiLink = `upi://pay?pa=${upiId}&pn=${ownerName}&am=${totalPrice}&cu=INR`;
                 setQRLink(upiLink);
                 setShowQR(true);
+
             })
             .catch(error => {
                 console.error('Error fetching user:', error);
