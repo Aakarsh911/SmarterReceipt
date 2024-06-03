@@ -176,7 +176,7 @@ function NewOrder() {
         axios.put('https://smarterreceipt.onrender.com/api/v1/inventory/update_inventory', { products, totalPrice }, { withCredentials: true })
             .then(response => {
                 const orderNumber = response.data.orderNumber;
-                const link = `http://localhost:3000/${shopName}/${orderNumber}`;
+                const link = `https://smarter-receipt.vercel.app/${shopName}/${orderNumber}`;
                 setProducts([]);
                 setTotalPrice(0);
                 toast.success('Order placed successfully and link sent');
