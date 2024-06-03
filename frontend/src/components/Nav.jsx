@@ -100,8 +100,6 @@ function Nav({ isLightMode, toggleMode }) {
                             <a href="/new-order"><li>New Order</li></a>
                             <a href="/transactions"><li>My Transactions</li></a>
                             <li onClick={handleLogout}>Logout</li>
-                            <li onClick={handleDeleteInventory}>Delete Inventory</li>
-                            <li onClick={deleteTransactions}>Delete Transacrtions</li>
                         </>
                     )}
                 </ul>
