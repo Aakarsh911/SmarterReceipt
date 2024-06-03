@@ -102,6 +102,7 @@ function Account() {
                             onChange={(e) => setShopName(e.target.value)}
                             placeholder={user?.ShopName}
                         />
+                        <label htmlFor="shop">UPI ID</label>
                         <input
                             className={`account-input ${isLightMode ? 'light' : 'dark'}`}
                             type="text"
