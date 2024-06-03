@@ -27,9 +27,6 @@
     border-radius: 5px;
 }
 
-body, html {
-    overflow: hidden; /* Prevent scrolling */
-}
 
 .dce-sel-camera {
     display: none !important;
