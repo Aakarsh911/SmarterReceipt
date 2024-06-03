@@ -1,10 +1,10 @@
 .dce-video-container {
-    width: 200vw; /* Full viewport width */
-    height: 26vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
+    height: 50vh; /* Full viewport height */
     margin: 0;
+    left: 0;
     padding: 0;
     position: fixed;
-    left: -50%;
     z-index: 1000; /* Ensure it's on top */
     background: none; /* Optional: To set a background color */
 }
