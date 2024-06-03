@@ -2,7 +2,8 @@
     width: 100vw; /* Full viewport width */
     height: 75vh; /* Full viewport height */
     margin: 0;
-    left: -20%;
+    left: 0;
+    top: 5em;
     padding: 0;
     position: fixed;
     z-index: 1000; /* Ensure it's on top */
