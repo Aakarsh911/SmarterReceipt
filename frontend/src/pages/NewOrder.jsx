@@ -141,6 +141,10 @@ function NewOrder() {
 
 
     const submit = ()=> {
+        if (products.length === 0) {
+            toast.error('Please add products to the cart');
+            return;
+        }
         axios.get('https://smarterreceipt.onrender.com/api/v1/user/current_user', { withCredentials: true })
             .then(userResponse => {
                 const shopName = userResponse.data.ShopName;
