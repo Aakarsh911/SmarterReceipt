@@ -40,6 +40,7 @@ function Inventory() {
     const [image, setProductImage] = useState('');
     const [fetched, setFetched] = useState(false);
     const [resultMessage, setResultMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const toggleMode = () => {
@@ -185,9 +186,14 @@ function Inventory() {
             quantity: parseInt(quantity),
             image: image
         };
+        setIsLoading(true);
+        const submitButton = document.querySelector('.submit-inv-but');
+        submitButton.disabled = true;
         axios.post('https://smarterreceipt.onrender.com/api/v1/inventory/addProduct', { product }, { withCredentials: true })
             .then(response => {
                 fetchInventory(user.InventoryId);
+                setIsLoading(false);
+                submitButton.disabled = false;
                 close();
             })
             .catch(error => {
@@ -327,7 +333,7 @@ function Inventory() {
                             onChange={(e) => setQuantity(e.target.value)}
                             placeholder="Enter Quantity"
                         />
-                        <button onClick={handleScannedEntrySubmit}>Submit</button>
+                        <button onClick={handleScannedEntrySubmit} className={`submit-inv-but ${isLoading ? "loading" : ""}`}>Submit</button>
                     </div>
                 )}
                 {isManualEntryOpen && (
