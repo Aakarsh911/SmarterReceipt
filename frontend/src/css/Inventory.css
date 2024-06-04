@@ -231,10 +231,10 @@
 }
 
 .submit-inv-but {
-    transition: scale 2s ease-in-out;
+    transition: scale 0.5s ease-in-out;
 }
 
 .loading {
-    color: gray;
+    background: gray;
     scale: 0.8;
 }
