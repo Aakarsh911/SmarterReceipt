@@ -28,6 +28,7 @@ function NewOrder() {
     const [qrLink, setQRLink] = useState('');
     const [showEmailPrompt, setShowEmailPrompt] = useState(false);
     const [resultBarcode, setResultBarcode] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const toggleMode = () => {
         helperToggleMode(isLightMode, setIsLightMode);
     };
@@ -183,13 +184,17 @@ function NewOrder() {
 
     const sendEmail = (valid) => {
         setShowQR(false);
+        setIsLoading(true);
+        const confirmButton = document.querySelector('.confirm');
+        confirmButton.disabled = true;
         axios.put('https://smarterreceipt.onrender.com/api/v1/inventory/update_inventory', { products, totalPrice }, { withCredentials: true })
             .then(response => {
+                setIsLoading(false);
+                confirmButton.disabled = false;
                 const orderNumber = response.data.orderNumber;
                 const link = `https://smarter-receipt.vercel.app/${shopName}/${orderNumber}`;
                 setProducts([]);
                 setTotalPrice(0);
-                toast.success('Order placed successfully');
                 setShowEmailPrompt(false);
                 if (valid) {
                     axios.post('https://smarterreceipt.onrender.com/api/v1/send_link/send_link', { email, link })
@@ -308,14 +313,14 @@ function NewOrder() {
                                 <h3 style={{ textAlign: "center", color: "gray" }}>
                                     Please confirm that the payment has been made through this QR code or cash
                                 </h3>
-                                <button className="confirm" onClick={() => setShowEmailPrompt(true)}>Confirm</button>
+                                <button className="confirm" onClick={() => {setShowEmailPrompt(true); toast.success('Order placed successfully');}}>Confirm</button>
                             </div>
                         </div>
                     )}
                     {showEmailPrompt && (
                         <div className="backdrop">
                             <div className="manual-entry-popup qr-code-modal">
-                                <button className="close-popup" onClick={()=>sendEmail(false)}><FontAwesomeIcon icon={faX} /></button>
+                                <button className={`close-popup ${isLoading ? "loading" : ""}`} onClick={()=>sendEmail(false)}><FontAwesomeIcon icon={faX} /></button>
                                 <h3 style={{ textAlign: "center", color: "gray" , marginTop: "2em"}}>
                                     Please enter the email address to send the link to
                                 </h3>
@@ -325,7 +330,7 @@ function NewOrder() {
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="Email"
                                 />
-                                <button className="confirm" onClick={()=>sendEmail(true)}>Send</button>
+                                <button className={`confirm ${isLoading ? "loading" : ""}`} onClick={()=>sendEmail(true)}>Send</button>
                             </div>
                         </div>
                     )}

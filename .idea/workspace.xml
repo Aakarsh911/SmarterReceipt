@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d9541b68-26e5-4e45-ac41-7b740e8fa41d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/css/Inventory.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/css/Inventory.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/NewOrder.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/NewOrder.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +75,7 @@
       <workItem from="1717183898519" duration="4753000" />
       <workItem from="1717425501521" duration="2129000" />
       <workItem from="1717446135523" duration="110000" />
-      <workItem from="1717446254208" duration="7700000" />
+      <workItem from="1717446254208" duration="9984000" />
     </task>
     <task id="LOCAL-00001" summary="prevent empty transactions">
       <created>1717447005039</created>
@@ -168,7 +168,14 @@
       <option name="project" value="LOCAL" />
       <updated>1717494903829</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="loading gray important">
+      <created>1717495472812</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1717495472812</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,6 +195,7 @@
     <MESSAGE value="remove delete options" />
     <MESSAGE value="loading" />
     <MESSAGE value="loading2" />
-    <option name="LAST_COMMIT_MESSAGE" value="loading2" />
+    <MESSAGE value="loading gray important" />
+    <option name="LAST_COMMIT_MESSAGE" value="loading gray important" />
   </component>
 </project>
