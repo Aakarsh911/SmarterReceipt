@@ -192,7 +192,14 @@
       <option name="project" value="LOCAL" />
       <updated>1717672802397</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="test with upload">
+      <created>1717678244049</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1717678244049</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -216,6 +223,7 @@
     <MESSAGE value="disabling send link and correctly sending toasts" />
     <MESSAGE value="upload image" />
     <MESSAGE value="change bucket name" />
-    <option name="LAST_COMMIT_MESSAGE" value="change bucket name" />
+    <MESSAGE value="test with upload" />
+    <option name="LAST_COMMIT_MESSAGE" value="test with upload" />
   </component>
 </project>

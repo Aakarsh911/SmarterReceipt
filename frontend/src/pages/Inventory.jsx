@@ -91,6 +91,7 @@ function Inventory() {
             .catch(error => {
                 if (error.response && error.response.status === 404) {
                     setIsUploadOpen(true); // Open the upload interface if product is not found
+                    setScannedBarcode(barcode);
                     setIsCameraOpen(false);
                 } else {
                     toast.error('Error fetching product details');
@@ -114,7 +115,8 @@ function Inventory() {
             name: productName,
             price: parseFloat(price),
             quantity: parseInt(quantity),
-            image: image
+            image: image,
+            barcode: scannedBarcode
         };
         setIsLoading(true);
         const submitButton = document.querySelector('.submit-inv-but');
@@ -293,13 +295,7 @@ function Inventory() {
                     <div className="manual-entry-popup upload">
                         <button className="close-popup" onClick={close}><FontAwesomeIcon icon={faX} /></button>
                         <h1>Product Not Found - Upload Image</h1>
-                        <ImageUpload
-                            onUpload={handleImageUpload}
-                            productName={productName}
-                            price={price}
-                            quantity={quantity}
-                            barcode={scannedBarcode}
-                        />
+                        <ImageUpload onUpload={handleImageUpload} barcode={scannedBarcode} />
                     </div>
                 )}
                 {scannedPopup && (

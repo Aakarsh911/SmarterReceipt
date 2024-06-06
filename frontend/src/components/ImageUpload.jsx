@@ -1,4 +1,4 @@
-// components/ImageUpload.js
+
 import React, { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 import AWS from 'aws-sdk';
@@ -15,10 +15,13 @@ AWS.config.update({
 
 const s3 = new AWS.S3();
 
-const ImageUpload = ({ onUpload, productName, price, quantity, barcode }) => {
+const ImageUpload = ({ onUpload, barcode }) => {
     const webcamRef = useRef(null);
     const [imageSrc, setImageSrc] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
+    const [productName, setProductName] = useState('');
+    const [price, setPrice] = useState('');
+    const [quantity, setQuantity] = useState('');
 
     const captureImage = () => {
         const imageSrc = webcamRef.current.getScreenshot();
@@ -93,25 +96,45 @@ const ImageUpload = ({ onUpload, productName, price, quantity, barcode }) => {
                 <div>
                     <img src={imageSrc} alt="Captured" style={{ width: '100%' }} />
                     <button onClick={retakeImage} style={{ marginTop: '1em' }}>Retake</button>
+                    <input
+                        type="text"
+                        value={productName}
+                        onChange={(e) => setProductName(e.target.value)}
+                        placeholder="Enter Product Name"
+                        style={{ marginTop: '1em' }}
+                    />
+                    <input
+                        type="number"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        placeholder="Enter Price"
+                        style={{ marginTop: '1em' }}
+                    />
+                    <input
+                        type="number"
+                        value={quantity}
+                        onChange={(e) => setQuantity(e.target.value)}
+                        placeholder="Enter Quantity"
+                        style={{ marginTop: '1em' }}
+                    />
+                    <button onClick={handleSubmit} style={{ marginTop: '1em' }} disabled={isUploading}>
+                        {isUploading ? 'Uploading...' : 'Submit'}
+                    </button>
                 </div>
             ) : (
-                <Webcam
-                    audio={false}
-                    ref={webcamRef}
-                    screenshotFormat="image/jpeg"
-                    style={{ width: '100%' }}
-                />
-            )}
-            <button onClick={captureImage} style={{ marginTop: '1em' }}>
-                {imageSrc ? 'Retake Photo' : 'Capture Photo'}
-            </button>
-            {imageSrc && (
-                <button onClick={handleSubmit} style={{ marginTop: '1em' }} disabled={isUploading}>
-                    {isUploading ? 'Uploading...' : 'Submit'}
-                </button>
+                <div>
+                    <Webcam
+                        audio={false}
+                        ref={webcamRef}
+                        screenshotFormat="image/jpeg"
+                        style={{ width: '100%' }}
+                    />
+                    <button onClick={captureImage} style={{ marginTop: '1em' }}>Capture Photo</button>
+                </div>
             )}
         </div>
     );
 };
 
 export default ImageUpload;
+
