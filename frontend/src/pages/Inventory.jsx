@@ -1,18 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../css/Inventory.css';
-import Nav from '../components/Nav';
-import { toggleMode as helperToggleMode } from '../helpers';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faX, faSearch, faPlus, faKeyboard } from '@fortawesome/free-solid-svg-icons';
-import Webcam from 'react-webcam';
-import Quagga from 'quagga';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import VideoCapture from "../components/VideoCapture";
-import QRCode from 'qrcode.react';
 import ImageCapture from "../components/ImageCapture";
+import ImageUpload from "../components/ImageUpload"; // Import the new ImageUpload component
+import '../css/Inventory.css';
+import Nav from '../components/Nav';
+import { toggleMode as helperToggleMode } from '../helpers';
 
 function Inventory() {
     const [user, setUser] = useState(null);
@@ -21,7 +19,6 @@ function Inventory() {
         const savedMode = localStorage.getItem('isLightMode');
         return savedMode ? JSON.parse(savedMode) : true;
     });
-
     const [showEditPopup, setShowEditPopup] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(null);
     const [currentItem, setCurrentItem] = useState(null);
@@ -41,16 +38,11 @@ function Inventory() {
     const [fetched, setFetched] = useState(false);
     const [resultMessage, setResultMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isUploadOpen, setIsUploadOpen] = useState(false); // New state for handling image upload
     const navigate = useNavigate();
 
     const toggleMode = () => {
         helperToggleMode(isLightMode, setIsLightMode);
-    };
-    const handleBarcodeDetected = (barcode) => {
-        console.log("h1"+ barcode);
-        setIsCameraOpen(false);
-        fetchProductDetails(barcode);// Close the camera as soon as a barcode is detected
-        // Set the detected barcode in state
     };
 
     useEffect(() => {
@@ -84,6 +76,67 @@ function Inventory() {
             });
     };
 
+    const fetchProductDetails = (barcode) => {
+        setFetched(false); // Reset fetched state to allow fetching new product details
+        axios.get(`https://smarterreceipt.onrender.com/api/v1/inventory/product_details/${barcode}`, { withCredentials: true })
+            .then(response => {
+                const { name, image } = response.data;
+                setProductName(name);
+                setProductImage(image);
+                setFetched(true);
+                setScannedPopup(true);
+                setIsCameraOpen(false); // Close camera once the product details are fetched
+            })
+            .catch(error => {
+                if (error.response && error.response.status === 404) {
+                    setIsUploadOpen(true); // Open the upload interface if product is not found
+                    setIsCameraOpen(false);
+                } else {
+                    toast.error('Error fetching product details');
+                    console.error('Error fetching product details:', error);
+                }
+            });
+    };
+
+    const handleBarcodeDetected = (barcode) => {
+        setIsCameraOpen(false);
+        fetchProductDetails(barcode);
+    };
+
+    const handleImageUpload = (imageUrl) => {
+        setProductImage(imageUrl);
+        console.log('Uploaded Image URL:', imageUrl);
+    };
+
+    const handleScannedEntrySubmit = () => {
+        const product = {
+            name: productName,
+            price: parseFloat(price),
+            quantity: parseInt(quantity),
+            image: image
+        };
+        setIsLoading(true);
+        const submitButton = document.querySelector('.submit-inv-but');
+        submitButton.disabled = true;
+        axios.post('https://smarterreceipt.onrender.com/api/v1/inventory/addProduct', { product }, { withCredentials: true })
+            .then(response => {
+                fetchInventory(user.InventoryId);
+                setIsLoading(false);
+                submitButton.disabled = false;
+                setScannedPopup(false);
+                setIsUploadOpen(false); // Close the upload interface after submission
+            })
+            .catch(error => {
+                toast.error('Error updating inventory');
+                console.error('Error updating inventory:', error);
+            });
+    };
+
+    const handleManualEntrySubmit = () => {
+        fetchProductDetails(manualBarcode);
+        setIsManualEntryOpen(false);
+    };
+
     const handleEditClick = (index, product) => {
         setCurrentItem(product);
         setCurrentIndex(index);
@@ -107,104 +160,6 @@ function Inventory() {
                 toast.error('Error updating item');
                 console.log('Error updating item', error);
             });
-    };
-
-
-
-
-
-    // const decodeBarcode = (imageSrc) => {
-    //     const img = new Image();
-    //     img.src = imageSrc;
-    //
-    //     img.onload = () => {
-    //         Quagga.decodeSingle({
-    //             src: img.src,
-    //             numOfWorkers: 0,
-    //             inputStream: {
-    //                 size: 800
-    //             },
-    //             decoder: {
-    //                 readers: ["ean_reader", "upc_reader"]
-    //             },
-    //             locator: {
-    //                 patchSize: "medium",
-    //                 halfSample: true
-    //             }
-    //         }, (result) => {
-    //             if (result && result.codeResult) {
-    //                 const barcode = result.codeResult.code;
-    //                 setResultMessage('Barcode: ' + barcode);
-    //                 setScannedBarcode(barcode);
-    //                 fetchProductDetails(barcode);
-    //             } else {
-    //                 setResultMessage('No barcode detected');
-    //                 toast.error('No barcode detected');
-    //             }
-    //         });
-    //     };
-    // };
-
-    const fetchProductDetails = (barcode) => {
-        setFetched(false); // Reset fetched state to allow fetching new product details
-        axios.get(`https://smarterreceipt.onrender.com/api/v1/inventory/product_details/${barcode}`, { withCredentials: true })
-            .then(response => {
-                const { name, image } = response.data;
-                setProductName(name);
-                setProductImage(image);
-                setFetched(true);
-                setScannedPopup(true);
-                setIsCameraOpen(false); // Close camera once the product details are fetched
-            })
-            .catch(error => {
-                toast.error('Product not found');
-                console.error('Error fetching product details:', error);
-            });
-    };
-
-    const close = () => {
-        setIsCameraOpen(false);
-        setIsManualEntryOpen(false);
-        setScannedPopup(false);
-        setQuantity('');
-        setPrice('');
-        setProductName('');
-        setProductImage('');
-        setScannedBarcode('');
-        setManualBarcode('');
-    };
-
-    const handleManualEntryClick = () => {
-        setIsManualEntryOpen(true);
-        setIsCameraOpen(false);
-    };
-
-    const handleScannedEntrySubmit = () => {
-        const product = {
-            name: productName,
-            price: parseFloat(price),
-            quantity: parseInt(quantity),
-            image: image
-        };
-        setIsLoading(true);
-        const submitButton = document.querySelector('.submit-inv-but');
-        submitButton.disabled = true;
-        axios.post('https://smarterreceipt.onrender.com/api/v1/inventory/addProduct', { product }, { withCredentials: true })
-            .then(response => {
-                fetchInventory(user.InventoryId);
-                setIsLoading(false);
-                submitButton.disabled = false;
-                close();
-            })
-            .catch(error => {
-                toast.error('Error updating inventory');
-                console.error('Error updating inventory:', error);
-            });
-    };
-
-    const handleManualEntrySubmit = () => {
-        fetchProductDetails(manualBarcode);
-        setIsManualEntryOpen(false);
     };
 
     const handleDeleteClick = () => {
@@ -283,6 +238,19 @@ function Inventory() {
         setResultMessage('');
     };
 
+    const close = () => {
+        setIsCameraOpen(false);
+        setIsManualEntryOpen(false);
+        setScannedPopup(false);
+        setIsUploadOpen(false);
+        setQuantity('');
+        setPrice('');
+        setProductName('');
+        setProductImage('');
+        setScannedBarcode('');
+        setManualBarcode('');
+    };
+
     return (
         <div>
             <Nav isLightMode={isLightMode} toggleMode={toggleMode} />
@@ -313,6 +281,27 @@ function Inventory() {
                         </div>
                         <VideoCapture onBarcodeDetected={handleBarcodeDetected} />
                         <ImageCapture />
+                    </div>
+                )}
+                {isUploadOpen && (
+                    <div className="manual-entry-popup">
+                        <button className="close-popup" onClick={close}><FontAwesomeIcon icon={faX} /></button>
+                        <h1>Product Not Found - Upload Image</h1>
+                        <ImageUpload onUpload={handleImageUpload} />
+                        <input
+                            type="number"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                            placeholder="Enter Price"
+                            style={{ marginTop: "3em" }}
+                        />
+                        <input
+                            type="number"
+                            value={quantity}
+                            onChange={(e) => setQuantity(e.target.value)}
+                            placeholder="Enter Quantity"
+                        />
+                        <button onClick={handleScannedEntrySubmit} className={`submit-inv-but ${isLoading ? "loading" : ""}`}>Submit</button>
                     </div>
                 )}
                 {scannedPopup && (
@@ -359,8 +348,8 @@ function Inventory() {
                                     <div className="flex">
                                         <h4 className="red quant">{product.quantity} left</h4>
                                         <button className={`inv-edit-btn ${isLightMode ? 'light' : 'dark'}`}
-                                            onClick={() => handleEditClick(index, product)}><FontAwesomeIcon
-                                                icon={faPen} /></button>
+                                                onClick={() => handleEditClick(index, product)}><FontAwesomeIcon
+                                            icon={faPen} /></button>
                                     </div>
                                 </div>
                             </div>
@@ -378,17 +367,17 @@ function Inventory() {
                         <div className="inv-modal-body">
                             <label htmlFor="inv-price">Price</label>
                             <input type="number" id="inv-price" name="price" value={currentItem.price}
-                                onChange={handleInputChange} />
+                                   onChange={handleInputChange} />
                             <label htmlFor="inv-quantity">Quantity</label>
                             <input type="number" id="inv-quantity" name="quantity" value={currentItem.quantity}
-                                onChange={handleInputChange} />
+                                   onChange={handleInputChange} />
                         </div>
                         <div className="inv-modal-footer">
                             <button className={`inv-save-btn ${isLightMode ? 'light' : 'dark'}`}
-                                onClick={handleSaveClick}>Save
+                                    onClick={handleSaveClick}>Save
                             </button>
                             <button className={`inv-delete-btn ${isLightMode ? 'light' : 'dark'}`}
-                                onClick={handleDeleteClick}>Delete
+                                    onClick={handleDeleteClick}>Delete
                             </button>
                         </div>
                     </div>
