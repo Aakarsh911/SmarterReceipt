@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9541b68-26e5-4e45-ac41-7b740e8fa41d" name="Changes" comment="upload image">
+    <list default="true" id="d9541b68-26e5-4e45-ac41-7b740e8fa41d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/ImageUpload.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ImageUpload.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +75,7 @@
       <workItem from="1717183898519" duration="4753000" />
       <workItem from="1717425501521" duration="2129000" />
       <workItem from="1717446135523" duration="110000" />
-      <workItem from="1717446254208" duration="16802000" />
+      <workItem from="1717446254208" duration="17344000" />
     </task>
     <task id="LOCAL-00001" summary="prevent empty transactions">
       <created>1717447005039</created>
@@ -181,7 +182,14 @@
       <option name="project" value="LOCAL" />
       <updated>1717498007899</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="change bucket name">
+      <created>1717672802397</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1717672802397</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -204,6 +212,7 @@
     <MESSAGE value="loading gray important" />
     <MESSAGE value="disabling send link and correctly sending toasts" />
     <MESSAGE value="upload image" />
-    <option name="LAST_COMMIT_MESSAGE" value="upload image" />
+    <MESSAGE value="change bucket name" />
+    <option name="LAST_COMMIT_MESSAGE" value="change bucket name" />
   </component>
 </project>

@@ -27,8 +27,7 @@ const ImageUpload = ({ onUpload }) => {
             Bucket: 'product-images-smarter-receipt2',
             Key: fileName,
             Body: blob,
-            ContentType: fileType,
-            ACL: 'public-read'
+            ContentType: fileType
         };
 
         s3.upload(params, (err, data) => {
