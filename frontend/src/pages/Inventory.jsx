@@ -1,3 +1,4 @@
+// Inventory.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -292,21 +293,13 @@ function Inventory() {
                     <div className="manual-entry-popup upload">
                         <button className="close-popup" onClick={close}><FontAwesomeIcon icon={faX} /></button>
                         <h1>Product Not Found - Upload Image</h1>
-                        <ImageUpload onUpload={handleImageUpload} />
-                        <input
-                            type="number"
-                            value={price}
-                            onChange={(e) => setPrice(e.target.value)}
-                            placeholder="Enter Price"
-                            style={{ marginTop: "1em" }}
+                        <ImageUpload
+                            onUpload={handleImageUpload}
+                            productName={productName}
+                            price={price}
+                            quantity={quantity}
+                            barcode={scannedBarcode}
                         />
-                        <input
-                            type="number"
-                            value={quantity}
-                            onChange={(e) => setQuantity(e.target.value)}
-                            placeholder="Enter Quantity"
-                        />
-                        <button onClick={handleScannedEntrySubmit} className={`submit-inv-but ${isLoading ? "loading" : ""}`}>Submit</button>
                     </div>
                 )}
                 {scannedPopup && (
