@@ -132,6 +132,11 @@ function Inventory() {
             });
     };
 
+    const handleManualEntryClick = () => {
+        setIsManualEntryOpen(true);
+        setIsCameraOpen(false);
+    };
+
     const handleManualEntrySubmit = () => {
         fetchProductDetails(manualBarcode);
         setIsManualEntryOpen(false);
