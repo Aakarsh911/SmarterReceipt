@@ -85,7 +85,7 @@ router.get('/product_details/:barcode', isAuthenticated, async (req, res) => {
 
     try {
         // First, check if the product is in the local database
-        const product = await Products.findOne({ barcode: barcode });
+        const product = await Products.findOne({barcode: barcode});
 
         if (product) {
             // If found in the local database, return it
@@ -370,5 +370,21 @@ router.get('/:shopName/:orderNumber', async (req, res) => {
 //         res.status(500).send('Error fetching products');
 //     }
 // });
-
+router.post('/add_to_database', isAuthenticated, async (req, res) => {
+    const {product} = req.body;
+    const barcode = product.barcode;
+    const image = product.image;
+    const name = product.name;
+    const newProduct = new Products({
+        barcode,
+        image,
+        name
+    })
+    try {
+        await newProduct.save();
+        res.status(200).send("Product added successfully")
+    } catch (e) {
+        res.status(400).send("Error adding product to database")
+    }
+})
 module.exports = router;

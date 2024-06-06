@@ -216,11 +216,12 @@
     transform: translateY(-0.5em);
 }
 
-.name.dark{
-    color:black;
+.name.dark {
+    color: black;
     margin-top: 2rem;
 }
-.manual-entry-popup img{
+
+.manual-entry-popup img {
     width: 200px;
     height: 200px;
     border-radius: 10px;
@@ -237,4 +238,15 @@
 .loading {
     background: gray !important;
     scale: 0.95;
+}
+
+.upload {
+    width: 80%;
+}
+
+.image-upload {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

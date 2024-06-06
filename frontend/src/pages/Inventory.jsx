@@ -289,7 +289,7 @@ function Inventory() {
                     </div>
                 )}
                 {isUploadOpen && (
-                    <div className="manual-entry-popup">
+                    <div className="manual-entry-popup upload">
                         <button className="close-popup" onClick={close}><FontAwesomeIcon icon={faX} /></button>
                         <h1>Product Not Found - Upload Image</h1>
                         <ImageUpload onUpload={handleImageUpload} />
@@ -298,7 +298,7 @@ function Inventory() {
                             value={price}
                             onChange={(e) => setPrice(e.target.value)}
                             placeholder="Enter Price"
-                            style={{ marginTop: "3em" }}
+                            style={{ marginTop: "1em" }}
                         />
                         <input
                             type="number"
