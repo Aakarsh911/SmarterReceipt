@@ -24,7 +24,7 @@ const ImageUpload = ({ onUpload }) => {
         setIsUploading(true);
 
         const params = {
-            Bucket: 'product-images-smarter-receipt',
+            Bucket: 'product-images-smarter-receipt2',
             Key: fileName,
             Body: blob,
             ContentType: fileType,
