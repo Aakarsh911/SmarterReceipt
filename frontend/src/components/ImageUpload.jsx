@@ -23,6 +23,10 @@ const ImageUpload = ({ onUpload, barcode }) => {
     const [price, setPrice] = useState('');
     const [quantity, setQuantity] = useState('');
 
+    const videoConstraints = {
+        facingMode: { exact: "environment" } // Use the back camera
+    };
+
     const captureImage = () => {
         const imageSrc = webcamRef.current.getScreenshot();
         setImageSrc(imageSrc);
@@ -127,6 +131,7 @@ const ImageUpload = ({ onUpload, barcode }) => {
                         audio={false}
                         ref={webcamRef}
                         screenshotFormat="image/jpeg"
+                        videoConstraints={videoConstraints}
                         style={{ width: '100%' }}
                     />
                     <button onClick={captureImage} style={{ marginTop: '1em' }}>Capture Photo</button>
