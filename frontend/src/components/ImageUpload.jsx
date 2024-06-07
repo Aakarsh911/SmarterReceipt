@@ -91,6 +91,7 @@ const ImageUpload = ({ onUpload, barcode }) => {
                     toast.error('Error adding product');
                 }
             }
+
         });
     };
 

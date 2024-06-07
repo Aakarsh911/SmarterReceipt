@@ -1,0 +1,47 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -4,11 +4,7 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="d9541b68-26e5-4e45-ac41-7b740e8fa41d" name="Changes" comment="">
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ImageUpload.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ImageUpload.jsx" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Inventory.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Inventory.jsx" afterDir="false" />
+-    </list>
++    <list default="true" id="d9541b68-26e5-4e45-ac41-7b740e8fa41d" name="Changes" comment="" />
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -199,7 +195,14 @@
+       <option name="project" value="LOCAL" />
+       <updated>1717678244049</updated>
+     </task>
+-    <option name="localTasksCounter" value="18" />
++    <task id="LOCAL-00018" summary="test2">
++      <created>1717679019904</created>
++      <option name="number" value="00018" />
++      <option name="presentableId" value="LOCAL-00018" />
++      <option name="project" value="LOCAL" />
++      <updated>1717679019904</updated>
++    </task>
++    <option name="localTasksCounter" value="19" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -224,6 +227,7 @@
+     <MESSAGE value="upload image" />
+     <MESSAGE value="change bucket name" />
+     <MESSAGE value="test with upload" />
+-    <option name="LAST_COMMIT_MESSAGE" value="test with upload" />
++    <MESSAGE value="test2" />
++    <option name="LAST_COMMIT_MESSAGE" value="test2" />
+   </component>
+ </project>
+\ No newline at end of file
