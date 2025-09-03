@@ -216,21 +216,6 @@
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Dynamsoft** for providing powerful barcode scanning capabilities
-- **Google** for OAuth authentication services
-- **MongoDB** for flexible database solutions
-- **React** and **Node.js** communities for excellent documentation and support
-
-## 📞 Support
-
-For support, email: [support@smarterreceipt.com](mailto:support@smarterreceipt.com)
-
 ## 🌐 Live Demo
 
 Check out the live application: [SmarterReceipt](https://smarter-receipt.vercel.app)
