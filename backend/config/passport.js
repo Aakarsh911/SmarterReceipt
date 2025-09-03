@@ -4,8 +4,8 @@ const { User } = require('../db');
 const { generateUniqueInventoryId } = require('../helpers');
 
 passport.use(new GoogleStrategy({
-    clientID: '660075968403-9erhme7sfjlosak5soglvmm7kivli605.apps.googleusercontent.com',
-    clientSecret: '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',
+    clientID: '',
+    clientSecret: '',
     callbackURL: 'https://smarterreceipt.onrender.com/api/v1/auth/google/callback' // Ensure the callback URL matches
 }, async (token, tokenSecret, profile, done) => {
     try {
