@@ -8,9 +8,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // Ensure to use environment variables for these credentials
 AWS.config.update({
-    accessKeyId: 'AKIA6GBMH3EZCJJMJSPS',
-    secretAccessKey:'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',
-    region: "us-east-1"
+    accessKeyId: '',
+    secretAccessKey:'',
+    region: ""
 });
 
 const s3 = new AWS.S3();
