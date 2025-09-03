@@ -1,7 +1,7 @@
 const {json} = require('body-parser');
 const mongoose = require('mongoose');
 
-mongoose.connect("mongodb+srv://kinshuokmunjal:kmunjal654@cluster0.kzwzut4.mongodb.net/SmarterReceipt", {
+mongoose.connect("", {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
