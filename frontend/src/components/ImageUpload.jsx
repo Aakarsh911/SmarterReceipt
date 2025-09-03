@@ -6,7 +6,6 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Ensure to use environment variables for these credentials
 AWS.config.update({
     accessKeyId: '',
     secretAccessKey:'',
